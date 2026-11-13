@@ -47,12 +47,6 @@ ncrack -user target -P ~/small-wordlist.txt ssh://192.168.1.10
 - **Source IP**: 192.168.1.11 (Kali)
 - **Destination user**: target
 
-### Sample Log Entry (Raw)
-
-```
-<!-- TODO: paste raw Wazuh alert JSON / sshd log line here -->
-```
-
 ### Compliance Mapping (from Wazuh rule metadata)
 
 - **GDPR**: IV_35.7.d, IV_32.2
