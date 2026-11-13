@@ -63,9 +63,9 @@ Filtered by `rule.groups: syscheck`, `agent.id: 002`, last 1 hour — result: **
 
 ## Screenshot Evidence
 
-![FIM Inventory showing tracked file with full checksum details](../screenshots/04-fim-inventory.png)
-![SQLite query confirming database entry](../screenshots/04-fim-database-query.png)
-![Events tab showing no syscheck alerts](../screenshots/04-fim-events-empty.png)
+![FIM Inventory showing tracked file with full checksum details](../screenshots/scenario-04-fim-inventory.png)
+![SQLite query confirming database entry](../screenshots/scenario-04-fim-database-query.png)
+![Events tab showing no syscheck alerts](../screenshots/scenario-04-fim-events-empty.png)
 
 ## Analysis
 
