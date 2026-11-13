@@ -53,7 +53,6 @@ Injection points confirmed:
 ![Manual SQLi bypass result](../screenshots/scenario-03-sql-injection-dvwa-manual.png)
 ![sqlmap automated exploitation](../screenshots/scenario-03-sql-injection-kali.png)
 ![Wazuh dashboard overview](../screenshots/scenario-03-sql-injection-wazuh-dashboard.png)
-![Wazuh event detail](../screenshots/scenario-03-sql-injection-event-detail.png)
 
 ## Analysis
 
