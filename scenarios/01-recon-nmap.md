@@ -51,7 +51,7 @@ nmap -sV -A 192.168.1.10
 
 ![Nmap scan output from Kali](../screenshots/scenario-01-recon-nmap.png)
 
-![Wazuh dashboard - no related alerts found](../screenshots/scenario-01-wazuh-alert.png)
+![Wazuh dashboard - no related alerts found](../screenshots/scenario-01-wazuh-dashboard.png)
 
 ## Analysis
 
