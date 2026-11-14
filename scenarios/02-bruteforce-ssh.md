@@ -31,7 +31,6 @@ ncrack -user target -P ~/small-wordlist.txt ssh://192.168.1.10
 ## Execution Timeline
 
 | Time (WIB) | Event |
-|---|---|
 | ~15:40 | First wave of login attempts recorded |
 | ~16:25–16:30 | Secondary spike in alert volume (second tool run) |
 | 16:34:50 | Failed password attempt logged (source port 50442) |
@@ -48,12 +47,6 @@ ncrack -user target -P ~/small-wordlist.txt ssh://192.168.1.10
 - **Source IP**: 192.168.1.11 (Kali)
 - **Destination user**: target
 
-### Sample Log Entry (Raw)
-
-```
-<!-- TODO: paste raw Wazuh alert JSON / sshd log line here -->
-```
-
 ### Compliance Mapping (from Wazuh rule metadata)
 
 - **GDPR**: IV_35.7.d, IV_32.2
@@ -64,9 +57,9 @@ ncrack -user target -P ~/small-wordlist.txt ssh://192.168.1.10
 
 ## Screenshot Evidence
 
-![Ncrack attack execution](../screenshots/02-ncrack-command.png)
-![Wazuh alert detail - rule 5760](../screenshots/02-wazuh-alert-detail.png)
-![Wazuh dashboard - authentication failure spike](../screenshots/02-wazuh-dashboard.png)
+![Ncrack attack execution](../screenshots/scenario-02-ncrack-command.png)
+![Wazuh alert detail - rule 5760](../screenshots/scenario-02-wazuh-alert-detail.png)
+![Wazuh dashboard - authentication failure spike](../screenshots/scenario-02-wazuh-dashboard.png)
 
 ## Analysis
 
