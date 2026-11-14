@@ -85,9 +85,9 @@ Result: Rule did not trigger on live testing despite confirmed SYSCALL events pr
 4. Nmap's default SYN scan (`-sS`) does not complete a full TCP handshake, meaning it may not trigger an `accept()` call at the application layer at all, regardless of audit rule scope.
 
 ## Screenshot Evidence
-![Nmap scan output from Kali](../screenshots/01-recon-nmap.png)
-![Wazuh dashboard - no related alerts found](../screenshots/01-wazuh-dashboard.png)
-![Audit log showing captured SYSCALL events from apache2](../screenshots/01-auditd-syscall-evidence.png)
+![Nmap scan output from Kali](../screenshots/scenario-01-recon-nmap.png)
+![Wazuh dashboard - no related alerts found](../screenshots/scenario-01-wazuh-dashboard.png)
+![Audit log showing captured SYSCALL events from apache2](../screenshots/scenario-01-auditd-syscall-evidence.png)
 
 ## Analysis
 This scenario produced a two-part finding. First, it confirmed the expected architectural limitation of Wazuh as a host-based IDS: without additional log sources, network-level reconnaissance (port scanning) generates zero alerts by default.
