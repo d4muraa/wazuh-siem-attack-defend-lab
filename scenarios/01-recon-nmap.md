@@ -85,8 +85,8 @@ Result: Rule did not trigger on live testing despite confirmed SYSCALL events pr
 4. Nmap's default SYN scan (`-sS`) does not complete a full TCP handshake, meaning it may not trigger an `accept()` call at the application layer at all, regardless of audit rule scope.
 
 ## Screenshot Evidence
-![Nmap scan output from Kali](../screenshots/01-nmap-scan.png)
-![Wazuh dashboard - no related alerts found](../screenshots/01-wazuh-dashboard-empty.png)
+![Nmap scan output from Kali](../screenshots/01-recon-nmap.png)
+![Wazuh dashboard - no related alerts found](../screenshots/01-wazuh-dashboard.png)
 ![Audit log showing captured SYSCALL events from apache2](../screenshots/01-auditd-syscall-evidence.png)
 
 ## Analysis
