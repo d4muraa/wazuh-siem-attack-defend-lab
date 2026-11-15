@@ -1,8 +1,10 @@
 <!-- Custom Wazuh Rules — Network Reconnaissance Detection Attempt -->
 <!-- Developed as part of Scenario 01 (Nmap Reconnaissance) -->
 <!-- See scenarios/01-recon-nmap.md for full context and root cause analysis -->
+<!-- Status: Unresolved / Future Work -->
 
-<!-- Iteration 1: Too generic, matched by built-in rule 80700 before reaching this rule -->
+<!-- Iteration 1 (not shown as active XML — too generic, matched by built-in -->
+<!-- rule 80700 before reaching this rule): -->
 <!--
 <group name="custom,recon,">
   <rule id="100100" level="7">
@@ -15,8 +17,9 @@
 </group>
 -->
 
-<!-- Iteration 2: More specific (if_sid + field), but audit rule scope was too broad -->
-<!-- (captured local Unix socket traffic alongside real network connections) -->
+<!-- Iteration 2: more specific (if_sid + field), but the underlying audit rule -->
+<!-- scope was too broad — it captured local Unix socket traffic alongside real -->
+<!-- network connections, so this rule never matched a genuine external scan. -->
 <group name="custom,recon,">
   <rule id="100100" level="7">
     <if_sid>80700</if_sid>
@@ -28,7 +31,6 @@
   </rule>
 </group>
 
-<!-- Status: Unresolved / Future Work -->
 <!-- Root cause: the auditctl rule (-S connect,accept -F arch=b64) monitors ALL -->
 <!-- connect/accept syscalls indiscriminately, including high-volume local socket -->
 <!-- traffic (PAM auth, systemd internals) that drowns out signal from actual -->
@@ -37,13 +39,14 @@
 <!-- application layer. Resolving this requires scoping the audit rule to -->
 <!-- saddr_fam=inet explicitly, and/or testing with full TCP connect scans. -->
 
+
+<!-- ============================================================ -->
 <!-- Active Response Configuration — Successfully Implemented -->
 <!-- See scenarios/02-bruteforce-ssh.md for full verification evidence -->
-<!-- This configuration extends Wazuh's default rule 5760 (sshd authentication failed) -->
-<!-- with automated containment, rather than introducing a new detection rule -->
-
-<!--
-Configuration added to ossec.conf (not local_rules.xml, included here for reference):
+<!-- This extends Wazuh's default rule 5760 (sshd authentication failed) -->
+<!-- with automated containment, rather than introducing a new detection rule. -->
+<!-- Note: this block belongs in ossec.conf, not local_rules.xml — included -->
+<!-- here as active (uncommented) XML for reference and readability. -->
 
 <command>
   <name>firewall-drop</name>
@@ -58,6 +61,5 @@ Configuration added to ossec.conf (not local_rules.xml, included here for refere
   <timeout>600</timeout>
 </active-response>
 
-Result: automatic IP block triggered on brute force detection, verified effective
-via subsequent connection timeout from the blocked source.
--->
+<!-- Result: automatic IP block triggered on brute force detection, verified -->
+<!-- effective via subsequent connection timeout from the blocked source. -->
