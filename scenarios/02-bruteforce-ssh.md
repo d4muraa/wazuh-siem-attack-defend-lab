@@ -83,5 +83,32 @@ Based on project severity matrix: **Critical**
 4. **Alert escalation rule**: configure a correlation rule that specifically triggers a higher-severity alert when an `authentication_success` event follows multiple `authentication_failed` events from the same source IP within a short time window — this pattern wasn't distinctly flagged beyond the standard success/failure counts.
 
 ## Active Response
+**Implemented and verified successfully.**
 
-*Not yet configured at the time of this test — flagged as a follow-up item (see Recommendation #1). To be implemented and re-tested in a future iteration.*
+Configuration added to `ossec.conf` on the Wazuh server:
+```xml
+<command>
+  <name>firewall-drop</name>
+  <executable>firewall-drop</executable>
+  <timeout_allowed>yes</timeout_allowed>
+</command>
+
+<active-response>
+  <command>firewall-drop</command>
+  <location>local</location>
+  <rules_id>5760</rules_id>
+  <timeout>600</timeout>
+</active-response>
+```
+
+Upon re-triggering the brute force attack (Hydra), Wazuh automatically executed `firewall-drop` against the attacker's source IP (192.168.1.11):
+```
+DROP   all -- 192.168.1.11   0.0.0.0/0
+```
+
+Verified effective: subsequent `ssh` and `ping` attempts from the attacker machine to the target timed out completely, confirming the block was applied at the network layer, not just logged as an alert. The block auto-expires after 600 seconds (10 minutes), preventing permanent self-lockout risk.
+
+![Active response configuration](../screenshots/scenario-02-active-response-config.png)
+![Hydra re-trigger](../screenshots/scenario-02-active-response-hydra-trigger.png)
+![iptables DROP rule applied](../screenshots/scenario-02-active-response-iptables-block.png)
+![Connection blocked verification](../screenshots/scenario-02-active-response-connection-blocked.png)
