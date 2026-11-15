@@ -36,3 +36,28 @@
 <!-- complete a full TCP handshake, so it may never trigger accept() at the -->
 <!-- application layer. Resolving this requires scoping the audit rule to -->
 <!-- saddr_fam=inet explicitly, and/or testing with full TCP connect scans. -->
+
+<!-- Active Response Configuration — Successfully Implemented -->
+<!-- See scenarios/02-bruteforce-ssh.md for full verification evidence -->
+<!-- This configuration extends Wazuh's default rule 5760 (sshd authentication failed) -->
+<!-- with automated containment, rather than introducing a new detection rule -->
+
+<!--
+Configuration added to ossec.conf (not local_rules.xml, included here for reference):
+
+<command>
+  <name>firewall-drop</name>
+  <executable>firewall-drop</executable>
+  <timeout_allowed>yes</timeout_allowed>
+</command>
+
+<active-response>
+  <command>firewall-drop</command>
+  <location>local</location>
+  <rules_id>5760</rules_id>
+  <timeout>600</timeout>
+</active-response>
+
+Result: automatic IP block triggered on brute force detection, verified effective
+via subsequent connection timeout from the blocked source.
+-->
