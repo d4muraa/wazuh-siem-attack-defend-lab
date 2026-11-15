@@ -1,0 +1,38 @@
+<!-- Custom Wazuh Rules — Network Reconnaissance Detection Attempt -->
+<!-- Developed as part of Scenario 01 (Nmap Reconnaissance) -->
+<!-- See scenarios/01-recon-nmap.md for full context and root cause analysis -->
+
+<!-- Iteration 1: Too generic, matched by built-in rule 80700 before reaching this rule -->
+<!--
+<group name="custom,recon,">
+  <rule id="100100" level="7">
+    <decoded_as>auditd</decoded_as>
+    <description>Possible network connection detected via auditd monitoring - potential port scan</description>
+    <mitre>
+      <id>T1046</id>
+    </mitre>
+  </rule>
+</group>
+-->
+
+<!-- Iteration 2: More specific (if_sid + field), but audit rule scope was too broad -->
+<!-- (captured local Unix socket traffic alongside real network connections) -->
+<group name="custom,recon,">
+  <rule id="100100" level="7">
+    <if_sid>80700</if_sid>
+    <field name="audit.type">SYSCALL</field>
+    <description>Possible network connection detected via auditd monitoring - potential port scan</description>
+    <mitre>
+      <id>T1046</id>
+    </mitre>
+  </rule>
+</group>
+
+<!-- Status: Unresolved / Future Work -->
+<!-- Root cause: the auditctl rule (-S connect,accept -F arch=b64) monitors ALL -->
+<!-- connect/accept syscalls indiscriminately, including high-volume local socket -->
+<!-- traffic (PAM auth, systemd internals) that drowns out signal from actual -->
+<!-- external network scans. Additionally, Nmap's default SYN scan does not -->
+<!-- complete a full TCP handshake, so it may never trigger accept() at the -->
+<!-- application layer. Resolving this requires scoping the audit rule to -->
+<!-- saddr_fam=inet explicitly, and/or testing with full TCP connect scans. -->
