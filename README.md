@@ -34,11 +34,14 @@ Across four tested scenarios, Wazuh's default configuration reliably detects **a
 Runbooks for each scenario type, including severity classification and escalation steps, are in [`runbooks/`](runbooks/).
 
 ## Repository Structure
-├── architecture/ # Network topology diagram
-├── custom-rules/ # Custom Wazuh rules (local_rules.xml attempts)
-├── runbooks/ # Incident response runbooks per scenario type
-├── scenarios/ # Detailed per-scenario reports with evidence
-└── screenshots/ # Supporting evidence for all scenarios
+
+```
+├── architecture/     # Network topology diagram
+├── custom-rules/     # Custom Wazuh rules (local_rules.xml attempts)
+├── runbooks/         # Incident response runbooks per scenario type
+├── scenarios/        # Detailed per-scenario reports with evidence
+└── screenshots/      # Supporting evidence for all scenarios
+```
 
 ## Lessons Learned
 - Wazuh installation and troubleshooting (dpkg state management, IO-APIC kernel panics on legacy VMs, timezone sync across VMs)
