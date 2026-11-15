@@ -21,7 +21,7 @@ This project demonstrates end-to-end security operations workflow: deploying a W
 | # | Scenario | MITRE ATT&CK | Default Detection | Severity |
 |---|---|---|---|---|
 | 01 | Network Reconnaissance (Nmap) | T1046 | Not detected | Low |
-| 02 | Brute Force (SSH) | T1110.001 | Detected (rule 5760) | Critical (successful auth) |
+| 02 | Brute Force (SSH) | T1110.001 | Detected (rule 5760) + **Active Response verified** | Critical (successful auth) |
 | 03 | SQL Injection (DVWA) | T1190 | Not detected | High |
 | 04 | File Integrity Monitoring | T1565.001 | Partial (tracked, not alerted) | Low-Medium |
 
@@ -30,8 +30,16 @@ Full technical detail, commands, and screenshots for each scenario are in [`scen
 ## Key Finding
 Across four tested scenarios, Wazuh's default configuration reliably detects **authentication-based attacks** but has **significant blind spots** for network- and application-layer attacks without additional log sources (Apache logs, NIDS integration) and rule tuning. An attempt to close the reconnaissance detection gap via custom `auditd` integration is documented in detail in [`scenarios/01-recon-nmap.md`](scenarios/01-recon-nmap.md), including the iterative debugging process and root cause analysis.
 
+## Active Response — Verified
+Beyond detection, this project implements and verifies automated incident response: upon detecting SSH brute force (rule 5760), Wazuh automatically blocks the attacker's source IP via `iptables`, with the block confirmed effective (subsequent connection attempts from the attacker timed out completely) and auto-expiring after 10 minutes. This closes the loop from **detection → automated response → verified containment** — the defining characteristic of XDR versus SIEM-only monitoring.
+
+See [`scenarios/02-bruteforce-ssh.md`](scenarios/02-bruteforce-ssh.md) for full configuration and evidence.
+
 ## Incident Response
 Runbooks for each scenario type, including severity classification and escalation steps, are in [`runbooks/`](runbooks/).
+
+## Project Reflection
+Strategic reasoning behind tool selection, architecture decisions, failure analysis, and interview preparation notes are documented in [`PROJECT-REFLECTION.md`](PROJECT-REFLECTION.md).
 
 ## Repository Structure
 
@@ -47,6 +55,7 @@ Runbooks for each scenario type, including severity classification and escalatio
 - Wazuh installation and troubleshooting (dpkg state management, IO-APIC kernel panics on legacy VMs, timezone sync across VMs)
 - Custom rule development is iterative — two rule iterations and a full root-cause investigation were needed before concluding the auditd approach required further scoping
 - Default SIEM configurations have real, documented blind spots — identifying and documenting these is as valuable as a successful detection
+- Automated response (Active Response) closes the gap between detection and containment, and was successfully implemented and verified for the brute force scenario
 
 ## Tools Used
 Wazuh 4.14.9, Kali Linux, DVWA (Docker), Nmap, Hydra, Ncrack, sqlmap, VirtualBox
