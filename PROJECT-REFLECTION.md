@@ -108,7 +108,7 @@ Each failure was debugged using the lowest-level available evidence rather than 
 **If given more time, what would be improved?**
 
 1. Resolve the auditd rule scoping issue (filter by `saddr_fam=inet`, exclude local socket traffic) to close the reconnaissance detection gap properly.
-2. Implement Active Response for the SSH brute force scenario, closing the loop from detection to automated containment.
+2. Extend Active Response beyond SSH brute force to other scenario types (e.g., automated containment for confirmed FIM alerts on critical files).
 3. Enable Apache log monitoring and retest SQL injection detection with that log source in place.
 4. Establish a false-positive baseline by running benign traffic patterns before/after each attack scenario.
 
